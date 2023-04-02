@@ -23,11 +23,11 @@ By default:
 ## Config
 If you need to configure and change the behavior of the project, go to the `config.h` file
 
-- UNIQUE_PASSWORD: If it is set true a unique password will be created with the Chip ID module (*default: `false`*)
-- MAX_CONNECTION: The number of devices that can connect to the access point in network configuration mode (*default: `1`*)
-- APIP: Access Point IP (*default: `172.217.28.1`*)
-- HOSTNAME: The name of the device connected to the network (*default: `CP-Device`*)
-- DNS_PORT:  DNS Server Port (*default: `53`*)
+- `UNIQUE_PASSWORD`: If it is set true a unique password will be created with the Chip ID module (*default: `false`*)
+- `MAX_CONNECTION`: The number of devices that can connect to the access point in network configuration mode (*default: `1`*)
+- `APIP`: Access Point IP (*default: `172.217.28.1`*)
+- `HOSTNAME`: The name of the device connected to the network (*default: `CP-Device`*)
+- `DNS_PORT`:  DNS Server Port (*default: `53`*)
 
 ### Edit Web Interface
 1. After changing the front-end code, use the `converter.py` script to convert the front-end files to gzip files to compress the file.
