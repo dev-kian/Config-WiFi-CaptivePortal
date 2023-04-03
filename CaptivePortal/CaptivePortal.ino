@@ -292,14 +292,16 @@ String getUniquePassword(){
 
 String encType(int i){
     switch (i) {
+    case ENC_TYPE_NONE:
+      return "Open";
     case ENC_TYPE_WEP:
       return "WEP";
     case ENC_TYPE_TKIP:
-      return "TKIP";
+      return "WPA/TKIP";
     case ENC_TYPE_CCMP:
-      return "CCMP";
-    case ENC_TYPE_NONE:
-      return "Open";
+      return "WPA2/AES";
+    case ENC_TYPE_AUTO:
+      return "WPA/WPA2/TKIP+AES";
     default:
       return "Unknown";
   }
