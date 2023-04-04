@@ -4,7 +4,7 @@
 
 function showMessage(msg){
     document.querySelector(".dialog-overlay").style.display = "flex";
-    document.getElementById('dlgMessage').innerHTML = msg;
+    document.getElementById('dlgMessage').innerText = msg;
 }
 
 function hideMessage() {
@@ -33,28 +33,29 @@ function connectNetwork(){
     showProgressRing();
     document.querySelector('#btnConnect').disabled = true;
     var json = `{"s":"${ssid}", "p":"${pass}"}`;
-    timeoutF(20000, fetch(`/connect?p=${btoa(json)}`)
+    fetchData(`/connect?p=${btoa(json)}`, 20000)
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            showMessage('Connection Successfully.');
+            var info = `\nSSID: ${data.ssid}\nIP: ${data.ip}\nSubnet: ${data.subnet}\nGateway: ${data.gateway}\n Mac: ${data.mac}`
+            showMessage(`Connection Successfully.${info}`);
         } else {
             showMessage('Your SSID or Password is not valid!');
         }
     })
-    .catch(() => {
-        showMessage('Bad Request, Try again');
+    .catch(error => {
+        showMessage('Request failed');
     })
     .finally(() => {
         hideProgressRing();
         document.querySelector('#btnConnect').disabled = false;
-    }));
+    });
 }
 
 function refreshNetwork(){
     showProgressRing();
     document.querySelector('#btnRefresh').disabled = true;
-    timeoutF(15000, fetch('/networks.json')
+    fetchData('/networks.json', 15000)
     .then(response => response.json())
     .then(data => {
         clearTable();
@@ -69,7 +70,7 @@ function refreshNetwork(){
 .finally(() => {
     hideProgressRing();
     document.querySelector('#btnRefresh').disabled = false;
-}));
+});
 }
 
 function onClickItemTable(x){
@@ -116,11 +117,12 @@ function addWiFi(row, ssid,rssi, bssid, encryption){
 function getSignal(rssi){
     return rssi + "%";
 }
-function timeoutF(ms, promise) {
-    return new Promise(function(resolve, reject) {
-      setTimeout(function() {
-        reject(new Error("timeout"))
-      }, ms)
-      promise.then(resolve, reject)
-    })
-}
+
+const fetchData = (url, timeout = 5000) => {
+    return Promise.race([
+      fetch(url),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Timeout')), timeout)
+      )
+    ]);
+  };

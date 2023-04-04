@@ -133,18 +133,28 @@ void configWebServer(){
     //Decode base64
     decode_base64(in, out);
     payload = String(out);
+    Serial.println(payload);
     StaticJsonDocument<128> doc;
     deserializeJson(doc, payload);
     String ssidName = doc["s"], password = doc["p"];
     doc.clear();
+    Serial.println(ssidName + " " + password);
     //If ssid is empty or password is empty or short return Bad Request.
     if(ssidName.isEmpty() || password.isEmpty() || password.length() < 8){
       server.send(400, "text/plain", "Bad Request");
     }
     else{
       bool isConnected = tryConnect(ssidName, password);
-      StaticJsonDocument<18> doc;
+      size_t capacity = 18 + (isConnected ? 300 : 0);
+      DynamicJsonDocument doc(capacity);
       doc["success"] = isConnected;
+      if(isConnected){
+         doc["ssid"] = WiFi.SSID(); 
+         doc["ip"] = WiFi.localIP();
+         doc["subnet"] = WiFi.subnetMask();
+         doc["gateway"] = WiFi.gatewayIP();
+         doc["mac"] = WiFi.macAddress();
+      }
       String jsonStr;
       serializeJson(doc, jsonStr);
       doc.clear();
@@ -153,7 +163,6 @@ void configWebServer(){
      if(isConnected){
        //Save ssid and password in EEPROM
        saveCredentials(ssidName, password);
-       Serial.printf("%d -- %s saved", ssidName, password);
        delay(5000);
        //Restart Module
        ESP.restart();
