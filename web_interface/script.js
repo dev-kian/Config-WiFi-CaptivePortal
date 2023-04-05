@@ -60,7 +60,7 @@ function refreshNetwork(){
     .then(data => {
         clearTable();
         data.forEach((item, row) => {
-        addWiFi(row, item.ssid, item.rssi, item.bssid, item.authmode);
+        addWiFi(++row, item.ssid, item.rssi, item.bssid, item.authmode);
     });
 })
 .catch(() => {
