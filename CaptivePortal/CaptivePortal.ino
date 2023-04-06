@@ -86,10 +86,14 @@ void startDNS(){
 }
 
 void configWebServer(){
+  server.on("*", HTTP_HEAD, [](){  
+    server.sendHeader("X-Content-Type-Options", "nosniff");   
+    });
+  
   server.on("/", [](){
-      auto file = readStream(index_html_route);
-        server.streamFile(file, "text/html");
-        file.close();
+    auto file = readStream(index_html_route);
+    server.streamFile(file, "text/html");
+    file.close();
   });
   server.on("/style.css", [](){
     auto file = readStream(style_css_route);
