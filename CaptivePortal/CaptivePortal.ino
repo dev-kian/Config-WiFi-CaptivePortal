@@ -86,10 +86,6 @@ void startDNS(){
 }
 
 void configWebServer(){
-  server.on("*", HTTP_HEAD, [](){  
-    server.sendHeader("X-Content-Type-Options", "nosniff");   
-    });
-  
   server.on("/", [](){
     auto file = readStream(index_html_route);
     server.streamFile(file, "text/html");
@@ -181,6 +177,8 @@ void configWebServer(){
   });
   
   server.begin();
+  //The X-Content-Type-Options header is a security header that is used to prevent MIME type sniffing
+  server.sendHeader("X-Content-Type-Options", "nosniff");
 }
 
 
