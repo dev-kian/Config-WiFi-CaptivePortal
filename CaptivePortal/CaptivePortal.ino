@@ -87,6 +87,8 @@ void startDNS(){
 
 void configWebServer(){
   server.on("/", [](){
+    //The X-XSS-Protection header is a security feature that helps protect against cross-site scripting (XSS) attacks
+    server.sendHeader("X-XSS-Protection","1; mode=block");
     auto file = readStream(index_html_route);
     server.streamFile(file, "text/html");
     file.close();
