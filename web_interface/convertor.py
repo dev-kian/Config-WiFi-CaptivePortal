@@ -11,34 +11,33 @@ while not os.path.exists(path):
     path = input("Enter directory path: ")
 
 output_dir = os.path.join(path, 'output')
+os.makedirs(output_dir, exist_ok=True)
+
 files = os.listdir(path)
-if any(file.endswith(".gzip") for file in files): 
+if any(file.endswith(".gz") for file in os.listdir(output_dir)): 
     while True:
         confirm_rem_input = input("Do you want to delete old gzip files(y/n): ")
         if confirm_rem_input.lower() in ['yes', 'y']:
-            gz_files = glob.glob(os.path.join(path, "*.gzip"))
+            gz_files = glob.glob(os.path.join(output_dir, "*.gz"))
+
             for gfile in gz_files:
                 os.remove(gfile)
-            files = os.listdir() #refresh files content
-            print("All files with .gzip suffix deleted.")
+            len_gz_files = len(gz_files)
+            print(f"{len_gz_files} {'file' if len_gz_files == 1 else 'files'} with .gz suffix deleted")
             break
         elif confirm_rem_input.lower() in ['no', 'n']:
             break
         else:
             print("Invalid input. Please enter 'y', 'yes' or 'n', 'no'")
 
-if not os.path.isdir(output_dir):
-    os.mkdir(output_dir)
-
 web_files_content = ""
-for file in files:
-    output_file =  f"{os.path.join(output_dir, file)}.gz"
-    file = os.path.join(path, file)
-    if os.path.isfile(file) and os.path.splitext(file)[1].lower() in allowed_suffix:   
+for file in os.listdir(path):
+    if file.endswith(tuple(allowed_suffix)):
+        input_file = os.path.join(path, file)
+        output_file = os.path.join(output_dir, f"{file}.gz")
         print(f"{os.path.basename(output_file)} Created")
-        with open(file, 'rb') as f_input:
-            with gzip.open(output_file, 'wb') as f_output:
-                f_output.writelines(f_input)
+        with open(input_file, 'rb') as f_input, gzip.open(output_file, 'wb') as f_output:
+            f_output.writelines(f_input)
         with open(output_file, 'rb') as f_output:
             data = f_output.read()
             byte_array = bytearray(data)
@@ -48,6 +47,7 @@ for file in files:
             web_files_content += f"const int {arrayName}_len = sizeof({arrayName});\n"
             web_files_content += f"const String {arrayName.replace('_gz', '')}_route = \"/{os.path.basename(output_file)}\";\n\n"
 
+
 if len(web_files_content) != 0:
     with open(os.path.join(output_dir, 'webfiles.h'), 'w') as f_output:
         f_output.write("#ifndef webfiles_h\n")
@@ -56,4 +56,4 @@ if len(web_files_content) != 0:
         f_output.write("#endif")
 
 
-print('Down.')
+print('Done.')
