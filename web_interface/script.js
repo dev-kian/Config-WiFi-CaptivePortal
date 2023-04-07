@@ -114,9 +114,17 @@ function addWiFi(row, ssid,rssi, bssid, encryption){
     newRow.appendChild(td4);
     document.getElementById('table-body').appendChild(newRow);
 }
-function getSignal(rssi){
-    return rssi + "%";
-}
+function getSignal(rssi) {
+    var percentage;
+    if (rssi <= -100) {
+      percentage = 0;
+    } else if (rssi >= -50) {
+      percentage = 100;
+    } else {
+      percentage = 2 * (rssi + 100);
+    }
+    return `${percentage}%`;
+  }
 
 function encIcon(enc){
     return `${enc} ${enc.toLowerCase() === 'open' ? '\u{1F513}' : '\u{1F510}'}`
