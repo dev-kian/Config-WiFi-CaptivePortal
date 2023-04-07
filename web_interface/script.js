@@ -110,12 +110,16 @@ function addWiFi(row, ssid,rssi, bssid, encryption){
     newRow.appendChild(td2);
     td3.textContent = bssid;
     newRow.appendChild(td3);
-    td4.textContent = encryption;
+    td4.textContent = encIcon(encryption);
     newRow.appendChild(td4);
     document.getElementById('table-body').appendChild(newRow);
 }
 function getSignal(rssi){
     return rssi + "%";
+}
+
+function encIcon(enc){
+    return `${enc} ${enc.toLowerCase() === 'open' ? '\u{1F513}' : '\u{1F510}'}`
 }
 
 const fetchData = (url, timeout = 5000) => {
