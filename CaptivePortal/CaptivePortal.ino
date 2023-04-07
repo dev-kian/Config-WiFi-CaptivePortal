@@ -125,10 +125,11 @@ void configWebServer(){
   });
   
   server.on("/connect", HTTP_GET, [](){
-    String payload = server.arg("p");//p is payload
-    if(payload.isEmpty()){ //payload has value in query or not
+    if(!server.hasArg("p")){ //payload has value in query or not
       server.send(400, "text/plain", "Bad Request");
     }
+    
+    String payload = server.arg("p");
     char in[payload.length() + 1];
     char out[128];
     payload.toCharArray(in, payload.length()+1);
