@@ -4,11 +4,15 @@ import gzip
 
 allowed_suffix = [".html", ".css", ".js"]
 
-path = input("Enter directory path: ")
+msg = "Enter directory path(D= Current Path): "
+path = input(msg)
 
-while not os.path.exists(path):
-    print("Directory path doesn't exist!")
-    path = input("Enter directory path: ")
+if path.lower() == 'd':
+    path = os.path.dirname(os.path.realpath(__file__))
+else:
+    while not os.path.exists(path):
+        print("Directory path doesn't exist!")
+        path = input(msg)
 
 output_dir = os.path.join(path, 'output')
 os.makedirs(output_dir, exist_ok=True)
