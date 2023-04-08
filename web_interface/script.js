@@ -23,6 +23,13 @@ function clearTable(){
     document.querySelector("tbody").innerHTML = '';
 }
 
+function visiblity(tagId, isDisabled){
+    const tag = document.getElementById(tagId);
+    if(tag){
+        tag.disabled = isDisabled;
+    }
+}
+
 function connectNetwork(){
     ssid = document.getElementById('ssid').value;
     pass = document.getElementById('password').value;
@@ -31,7 +38,7 @@ function connectNetwork(){
         return;
     }
     showProgressRing();
-    document.querySelector('#btnConnect').disabled = true;
+    visiblity('btnConnect', true);
     var json = `{"s":"${ssid}", "p":"${pass}"}`;
     fetchData(`/connect?p=${btoa(json)}`, 20000)
     .then(response => response.json())
@@ -48,13 +55,13 @@ function connectNetwork(){
     })
     .finally(() => {
         hideProgressRing();
-        document.querySelector('#btnConnect').disabled = false;
+        visiblity('btnConnect', false);
     });
 }
 
 function refreshNetwork(){
     showProgressRing();
-    document.querySelector('#btnRefresh').disabled = true;
+    visiblity('btnRefresh', true);
     fetchData('/networks.json', 15000)
     .then(response => response.json())
     .then(data => {
@@ -69,7 +76,7 @@ function refreshNetwork(){
 })
 .finally(() => {
     hideProgressRing();
-    document.querySelector('#btnRefresh').disabled = false;
+    visiblity('btnRefresh', false);
 });
 }
 
@@ -85,8 +92,9 @@ function onClickItemTable(x){
     if(value)
     {
         document.getElementById('ssid').value = value;
-        document.getElementById('password').value = '';
-        document.getElementById('password').focus();
+        var passwordTag = document.getElementById('password');
+        passwordTag.value = '';
+        passwordTag.focus();
     }  
 }
 
