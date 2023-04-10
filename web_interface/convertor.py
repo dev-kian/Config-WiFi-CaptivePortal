@@ -7,12 +7,17 @@ allowed_suffix = [".html", ".css", ".js"]
 msg = "Enter directory path(D= Current Path): "
 path = input(msg)
 
-if path.lower() == 'd':
-    path = os.path.dirname(os.path.realpath(__file__))
-else:
-    while not os.path.exists(path):
-        print("Directory path doesn't exist!")
-        path = input(msg)
+while True:
+    if path.lower() == 'd':
+        path = os.path.dirname(os.path.realpath(__file__))
+    else:
+        if os.path.exists(path):
+            break
+        else:
+            print("Directory path doesn't exist!")
+            path = input(msg)
+            
+print(path)
 
 output_dir = os.path.join(path, 'output')
 os.makedirs(output_dir, exist_ok=True)
