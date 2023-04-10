@@ -105,7 +105,7 @@ void configWebServer(){
     });
 
   server.on("/networks.json", [](){
-    int networkCount = WiFi.scanNetworks();
+    int networkCount = WiFi.scanNetworks(false, true);
     size_t capacity = JSON_OBJECT_SIZE((networkCount + 1) * 12);
     DynamicJsonDocument doc(capacity);
     for(int i=0; i<networkCount; ++i){

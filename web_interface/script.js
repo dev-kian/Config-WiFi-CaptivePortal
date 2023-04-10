@@ -67,7 +67,7 @@ function refreshNetwork(){
     .then(data => {
         clearTable();
         data.forEach((item, row) => {
-        addWiFi(++row, item.ssid, item.rssi, item.bssid, item.authmode);
+        addWiFi(++row, item.ssid, item.rssi, item.bssid, item.authmode, item.hidden);
     });
 })
 .catch(() => {
@@ -91,14 +91,15 @@ function onClickItemTable(x){
     var value = x.querySelector('td p').textContent;
     if(value)
     {
-        document.getElementById('ssid').value = value;
+        if(value !== "*HIDDEN*")
+            document.getElementById('ssid').value = value;
         var passwordTag = document.getElementById('password');
         passwordTag.value = '';
         passwordTag.focus();
     }  
 }
 
-function addWiFi(row, ssid,rssi, bssid, encryption){
+function addWiFi(row, ssid,rssi, bssid, encryption, isHide){
     var newRow = document.createElement('tr');
     newRow.onclick = function() {
         onClickItemTable(this);
@@ -111,7 +112,7 @@ function addWiFi(row, ssid,rssi, bssid, encryption){
     var td4 = document.createElement('td');
     th.textContent = row;
     newRow.appendChild(th);
-    p.textContent = ssid;
+    p.textContent = isHide ? "*HIDDEN*" : ssid;
     td1.appendChild(p);
     newRow.appendChild(td1);
     td2.textContent = getSignal(rssi);
@@ -135,7 +136,7 @@ function getSignal(rssi) {
   }
 
 function encIcon(enc){
-    return `${enc} ${enc.toLowerCase() === 'open' ? '\u{1F513}' : '\u{1F510}'}`
+    return `${enc} ${enc.toLowerCase() === 'open' ? '\u{1F513}' : '\u{1F510}'}`;
 }
 
 const fetchData = (url, timeout = 5000) => {
