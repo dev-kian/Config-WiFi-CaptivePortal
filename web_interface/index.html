@@ -34,16 +34,20 @@
                 <span>
                     <button id="btnConnect" class="button button-success" onclick="connectNetwork()">Connect</button>
                     <button id="btnRefresh" class="button button-primary" onclick="refreshNetwork()">Refresh</button>
+                    <button id="btnSettings" class="button button-warning" onclick="settings()">Settings</button>
                 </span>
         </div>
         <div class="dialog-overlay">
             <div class="dialog-box">
               <div class="dialog-header">
-                <h4>Information</h4>
-                <button class="button-danger" onclick="hideMessage()">X</button>
+                <h3 id="dlgTitle"></h3>
+                <button class="button-danger-close" onclick="hideMessage()">X</button>
               </div>
               <div class="dialog-body">
                 <p id="dlgMessage"></p>
+                <div id="dlgMessageOption">
+                  
+                </div>
               </div>
             </div>
           </div>

@@ -177,14 +177,19 @@ background-color: #28a746;
 .button-primary{
 background-color: #007bff;
 }
+.button-warning{
+    background-color: #ffbb33;
+}
 .button-danger{
 background-color: #dc3545;
-height: 32px;
-width: 32px;
-border: none;
-color: #f1f1f1
 }
-
+.button-danger-close{
+    background-color: #dc3545;
+    height: 32px;
+    width: 32px;
+    border: none;
+    color: #f1f1f1
+}
 p{
 color:rgb(50, 65, 240);
 font-size:x-large;

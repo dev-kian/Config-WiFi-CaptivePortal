@@ -3,6 +3,7 @@
 });
 
 function showMessage(msg){
+    document.getElementById('dlgTitle').innerText = "Information"
     document.querySelector(".dialog-overlay").style.display = "flex";
     document.getElementById('dlgMessage').innerText = msg;
 }
@@ -67,7 +68,7 @@ function refreshNetwork(){
     .then(data => {
         clearTable();
         data.forEach((item, row) => {
-        addWiFi(++row, item.ssid, item.rssi, item.bssid, item.authmode, item.hidden);
+            addWiFi(++row, item.ssid, item.rssi, item.bssid, item.authmode, item.hidden);
     });
 })
 .catch(() => {
@@ -78,6 +79,46 @@ function refreshNetwork(){
     hideProgressRing();
     visiblity('btnRefresh', false);
 });
+}
+
+function settings(){
+    document.getElementById('dlgTitle').innerText = "Settings"
+    document.getElementById('dlgMessage').innerText = '';
+    var btnClearE = document.createElement('button');
+    btnClearE.className = 'button button-primary';
+    btnClearE.innerText = 'Clear EEPROM';
+    btnClearE.id = 'btnClearEEPROM';
+    btnClearE.addEventListener('click', clearEEPROM);
+    document.getElementById('dlgMessageOption').innerHTML = '';
+    document.getElementById('dlgMessageOption').appendChild(btnClearE);
+    document.querySelector(".dialog-overlay").style.display = "flex";
+}
+
+function clearEEPROM(){
+    visiblity('btnClearEEPROM', true);
+    var btn = document.getElementById('btnClearEEPROM');
+    fetchData('/settings/clearEEPROM', 10000)
+    .then(data =>{
+        if(data.status === 200){
+            btn.innerText = "Successfully";
+            btn.className = "button button-success";
+        }
+        else{
+            btn.innerText = "Failed";
+            btn.className = "button button-danger";
+        }
+    })
+    .catch(() => {
+        alert("Can't clear EEPROM")
+        console.log("error to clear eeprom");
+    })
+    .finally(() => {
+        setTimeout(function(){
+            btn.className = 'button button-primary';
+            btn.innerText = 'Clear EEPROM';
+            visiblity('btnClearEEPROM', false);
+        }, 3000);
+    });
 }
 
 function onClickItemTable(x){
