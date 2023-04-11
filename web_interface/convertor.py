@@ -35,7 +35,7 @@ if any(file.endswith(".gz") for file in os.listdir(output_dir)):
             print(f"{len_gz_files} {'file' if len_gz_files == 1 else 'files'} with .gz suffix deleted")
             break
         elif confirm_rem_input.lower() in ['no', 'n']:
-            break
+            exit()
         else:
             print("Invalid input. Please enter 'y', 'yes' or 'n', 'no'")
 
