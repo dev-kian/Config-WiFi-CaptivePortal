@@ -84,13 +84,24 @@ function refreshNetwork(){
 function settings(){
     document.getElementById('dlgTitle').innerText = "Settings"
     document.getElementById('dlgMessage').innerText = '';
+    var div = document.createElement('div');
+
     var btnClearE = document.createElement('button');
     btnClearE.className = 'button button-primary';
+    btnClearE.style.marginBottom = '8px';
     btnClearE.innerText = 'Clear EEPROM';
     btnClearE.id = 'btnClearEEPROM';
     btnClearE.addEventListener('click', clearEEPROM);
+    div.appendChild(btnClearE);
+    div.appendChild(document.createElement('div'));
+    var btnRebootM = document.createElement('button');
+    btnRebootM.className = 'button button-primary';
+    btnRebootM.innerText = 'Reboot Module';
+    btnRebootM.id = 'btnRebootModule';
+    btnRebootM.addEventListener('click', rebootModule);
+    div.appendChild(btnRebootM);
     document.getElementById('dlgMessageOption').innerHTML = '';
-    document.getElementById('dlgMessageOption').appendChild(btnClearE);
+    document.getElementById('dlgMessageOption').appendChild(div);
     document.querySelector(".dialog-overlay").style.display = "flex";
 }
 
@@ -119,6 +130,35 @@ function clearEEPROM(){
             btn.className = 'button button-primary';
             btn.innerText = 'Clear EEPROM';
             visiblity('btnClearEEPROM', false);
+        }, 3000);
+    });
+}
+
+function rebootModule(){
+    visiblity('btnRebootModule', true);
+    var btn = document.getElementById('btnRebootModule');
+    fetchData('/settings/reboot', 5000)
+    .then(data =>{
+        if(data.status === 200){
+            btn.innerText = "Successfully";
+            btn.className = "button button-success";
+        }
+        else{
+            btn.innerText = "Failed";
+            btn.className = "button button-danger";
+        }
+    })
+    .catch(() => {
+        btn.innerText = "Failed";
+        btn.className = "button button-danger";
+        alert("Can't reboot module")
+        console.log("error to reboot module");
+    })
+    .finally(() => {
+        setTimeout(function(){
+            btn.className = 'button button-primary';
+            btn.innerText = 'Reboot Module';
+            visiblity('btnRebootModule', false);
         }, 3000);
     });
 }

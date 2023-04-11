@@ -182,6 +182,11 @@ void configWebServer(){
       server.send(200);
       blink(2,150);
   });
+
+    server.on("/settings/reboot", HTTP_GET, [](){
+      server.send(200);
+      ESP.restart();
+  });
   
   //If the web server cannot find any route, it will be redirected to the index page.
   server.onNotFound([]() {
