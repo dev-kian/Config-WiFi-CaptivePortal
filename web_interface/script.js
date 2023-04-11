@@ -109,6 +109,8 @@ function clearEEPROM(){
         }
     })
     .catch(() => {
+        btn.innerText = "Failed";
+        btn.className = "button button-danger";
         alert("Can't clear EEPROM")
         console.log("error to clear eeprom");
     })
@@ -132,7 +134,7 @@ function onClickItemTable(x){
     var value = x.querySelector('td p').textContent;
     if(value)
     {
-        if(value !== "*HIDDEN*")
+        if(value !== '*HIDDEN*')
             document.getElementById('ssid').value = value;
         var passwordTag = document.getElementById('password');
         passwordTag.value = '';
@@ -153,7 +155,7 @@ function addWiFi(row, ssid,rssi, bssid, encryption, isHide){
     var td4 = document.createElement('td');
     th.textContent = row;
     newRow.appendChild(th);
-    p.textContent = isHide ? "*HIDDEN*" : ssid;
+    p.textContent = isHide ? '*HIDDEN*' : ssid;
     td1.appendChild(p);
     newRow.appendChild(td1);
     td2.textContent = getSignal(rssi);

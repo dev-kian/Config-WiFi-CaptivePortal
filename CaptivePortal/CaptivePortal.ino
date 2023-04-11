@@ -104,7 +104,7 @@ void configWebServer(){
       file.close();
     });
 
-  server.on("/networks.json", [](){
+  server.on("/networks.json", HTTP_GET, [](){
     int networkCount = WiFi.scanNetworks(false, true);
     size_t capacity = JSON_OBJECT_SIZE((networkCount + 1) * 12);
     DynamicJsonDocument doc(capacity);
@@ -173,6 +173,16 @@ void configWebServer(){
     }
   });
 
+  server.on("/settings/clearEEPROM", HTTP_GET, [](){
+      for(int index=0; index <= EEPROM_SIZE; index++){
+        EEPROM.write(index, 0x00);
+      }
+      EEPROM.commit();
+      //EEPROM.end();
+      server.send(200);
+      blink(2,150);
+  });
+  
   //If the web server cannot find any route, it will be redirected to the index page.
   server.onNotFound([]() {
     server.sendHeader("Location", "/");
