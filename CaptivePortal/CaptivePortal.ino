@@ -185,6 +185,7 @@ void configWebServer(){
 
     server.on("/settings/reboot", HTTP_GET, [](){
       server.send(200);
+      delay(500);
       ESP.restart();
   });
   
