@@ -40,17 +40,21 @@
         <div class="dialog-overlay">
             <div class="dialog-box">
               <div class="dialog-header">
-                <h3 id="dlgTitle"></h3>
-                <button class="button-danger-close" onclick="hideMessage()">X</button>
+                <h2 id="dlgTitle"></h2>
+                <button class="button-danger-close" onclick="hideMessage()">&#x2716;</button>
               </div>
               <div class="dialog-body">
                 <p id="dlgMessage"></p>
                 <div id="dlgMessageOption">
-                  
+                  <button id="btnClearEEPROM" class="button button-primary" onclick="clearEEPROM()">Clear EEPROM</button>
+                  <br>
+                  <button id="btnRebootModule" class="button button-primary" onclick="rebootModule()">Reset Module</button>
                 </div>
               </div>
             </div>
           </div>
-        <div id="loader-wrapper"><div id="loader"></div></div>
+        <div id="loader-wrapper">
+          <div id="loader"></div>
+        </div>
     </body>
 </html>

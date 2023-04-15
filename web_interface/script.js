@@ -3,13 +3,14 @@
 });
 
 function showMessage(msg){
-    document.getElementById('dlgTitle').innerText = "Information"
-    document.querySelector(".dialog-overlay").style.display = "flex";
+    document.getElementById('dlgTitle').innerText = 'Information';
+    document.querySelector(".dialog-overlay").style.display = 'flex';
+    document.getElementById('dlgMessageOption').style.display = 'none';
     document.getElementById('dlgMessage').innerText = msg;
 }
 
 function hideMessage() {
-    document.querySelector(".dialog-overlay").style.display = "none";
+    document.querySelector(".dialog-overlay").style.display = 'none';
 }
 
 function showProgressRing(){
@@ -72,7 +73,7 @@ function refreshNetwork(){
     });
 })
 .catch(() => {
-    showMessage("Can't fetch networks")
+    showMessage("Can't fetch networks");
     console.log("error to fetch networks");
 })
 .finally(() => {
@@ -82,27 +83,10 @@ function refreshNetwork(){
 }
 
 function settings(){
-    document.getElementById('dlgTitle').innerText = "Settings"
+    document.getElementById('dlgTitle').innerText = 'Settings';
     document.getElementById('dlgMessage').innerText = '';
-    var div = document.createElement('div');
-
-    var btnClearE = document.createElement('button');
-    btnClearE.className = 'button button-primary';
-    btnClearE.style.marginBottom = '8px';
-    btnClearE.innerText = 'Clear EEPROM';
-    btnClearE.id = 'btnClearEEPROM';
-    btnClearE.addEventListener('click', clearEEPROM);
-    div.appendChild(btnClearE);
-    div.appendChild(document.createElement('div'));
-    var btnRebootM = document.createElement('button');
-    btnRebootM.className = 'button button-primary';
-    btnRebootM.innerText = 'Reboot Module';
-    btnRebootM.id = 'btnRebootModule';
-    btnRebootM.addEventListener('click', rebootModule);
-    div.appendChild(btnRebootM);
-    document.getElementById('dlgMessageOption').innerHTML = '';
-    document.getElementById('dlgMessageOption').appendChild(div);
-    document.querySelector(".dialog-overlay").style.display = "flex";
+    document.getElementById('dlgMessageOption').style.display = 'block';
+    document.querySelector(".dialog-overlay").style.display = 'flex';
 }
 
 function clearEEPROM(){
@@ -111,19 +95,19 @@ function clearEEPROM(){
     fetchData('/settings/clearEEPROM', 10000)
     .then(data =>{
         if(data.status === 200){
-            btn.innerText = "Successfully";
-            btn.className = "button button-success";
+            btn.innerText = 'Successfully';
+            btn.className = 'button button-success';
         }
         else{
-            btn.innerText = "Failed";
-            btn.className = "button button-danger";
+            btn.innerText = 'Failed';
+            btn.className = 'button button-danger';
         }
     })
     .catch(() => {
         btn.innerText = "Failed";
         btn.className = "button button-danger";
         alert("Can't clear EEPROM")
-        console.log("error to clear eeprom");
+        console.log('error to clear eeprom');
     })
     .finally(() => {
         setTimeout(function(){
@@ -140,19 +124,19 @@ function rebootModule(){
     fetchData('/settings/reboot', 5000)
     .then(data =>{
         if(data.status === 200){
-            btn.innerText = "Successfully";
-            btn.className = "button button-success";
+            btn.innerText = 'Successfully';
+            btn.className = 'button button-success';
         }
         else{
-            btn.innerText = "Failed";
+            btn.innerText = 'Failed';
             btn.className = "button button-danger";
         }
     })
     .catch(() => {
-        btn.innerText = "Failed";
-        btn.className = "button button-danger";
-        alert("Can't reboot module")
-        console.log("error to reboot module");
+        btn.innerText = 'Failed';
+        btn.className = 'button button-danger';
+        alert("Can't reboot module");
+        console.log('error to reboot module');
     })
     .finally(() => {
         setTimeout(function(){
@@ -229,4 +213,4 @@ const fetchData = (url, timeout = 5000) => {
         setTimeout(() => reject(new Error('Timeout')), timeout)
       )
     ]);
-  };
+};

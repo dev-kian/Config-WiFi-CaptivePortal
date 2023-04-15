@@ -228,3 +228,7 @@ align-items: center;
 .dialog-header h2 {
 margin: 0;
 }
+
+#btnClearEEPROM{
+    margin-bottom: 8px;
+}
