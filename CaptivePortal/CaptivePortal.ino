@@ -60,6 +60,7 @@ void loop(){
   }
   else if(sign){
     Serial.println("In this condition you can write the code that need network:)");
+    Serial.printf("Module is %sconnected to the network\r\n", (WiFi.status() == WL_CONNECTED ? "" : "not "));
     blink(1,1000);
   }
   else{
